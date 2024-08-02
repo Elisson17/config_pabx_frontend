@@ -35,29 +35,17 @@ export default function UraListManager({ uras }: UraListManagerProps) {
             <TableRow>
               <TableHead>Nome</TableHead>
               <TableHead>Extensão</TableHead>
-              <TableHead>Tempo de espera</TableHead>
-              <TableHead>Tempo de espera após anúncio</TableHead>
-              <TableHead>Áudio</TableHead>
-              <TableHead>Ativo</TableHead>
               <TableHead>Descrição</TableHead>
-              <TableHead>Anúncio inválido</TableHead>
-              <TableHead>Repetição inválida</TableHead>
-              </TableRow>
+            </TableRow>
           </TableHeader>
           <TableBody>
             {uras.map((ura) => (
               <TableRow key={ura.id}>
                 <TableCell>{ura.name}</TableCell>
                 <TableCell>{ura.extension}</TableCell>
-                <TableCell>{ura.timeout_time}</TableCell>
-                <TableCell>{ura.timeout_append_announce}</TableCell>
-                <TableCell>{ura.announcement}</TableCell>
-                <TableCell>{ura.is_active}</TableCell>
                 <TableCell>{ura.description}</TableCell>
-                <TableCell>{ura.invalid_append_announce}</TableCell>
-                <TableCell>{ura.invalid_loops}</TableCell>
                 <TableCell>
-                  <Link href={`/uras/edit?type=ura&id=${ura.id}`}> 
+                  <Link href={`/uras/edit?type=ura&id=${ura.id}`}>
                     <ButtonEdit />
                   </Link>
                 </TableCell>

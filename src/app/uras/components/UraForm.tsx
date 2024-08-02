@@ -6,32 +6,36 @@ import { Input } from "@/components/Input";
 import { createNewUraAction, updateUraAction } from "@/actions/UraAction";
 import { useCustomForm } from "@/hooks/useCustomForm";
 import { UraOptionType } from "@/schema/uraOptionSchema";
-import Switch from "@/components/Switch";
 import { Checkbox } from "@/components/Checkbox";
+import { UraScheduleType } from "@/schema/uraScheduleSchema";
 
 interface UraFormProps {
   data: {
     ura?: UraType;
     uraOptions?: UraOptionType[];
+    uraSchedules?: UraScheduleType[];
   };
   title?: string;
 }
 
 export default function UraForm({
-  data: { ura, uraOptions },
+  data: { ura, uraOptions, uraSchedules },
   title,
 }: UraFormProps) {
-  const { control, handleSubmit, errors, watch } = useCustomForm({
+  const { control, handleSubmit, errors } = useCustomForm({
     schema: uraSchema,
     createNewAction: createNewUraAction,
     updateAction: updateUraAction,
     redirectUrl: "/uras",
     defaultValues: ura!,
   });
-  const [isChecked, setIsChecked] = useState<boolean>(false);
 
-  const Watchinvalid_append_announce = watch("invalid_append_announce");
-  const Watchplay_hold_music = watch("play_hold_music");
+  const filteredUraSchedules = uraSchedules?.filter(
+    (schedule) => schedule.ivr_option_id === null
+  );
+
+  console.log(uraOptions);
+
   const router = useRouter();
 
   return (
@@ -46,8 +50,8 @@ export default function UraForm({
               id="name"
               type="text"
               name="name"
-              label="Nome"
-              className="rounded-full "
+              label="Nome da ura"
+              className=" "
               control={control}
               errors={errors}
               defaultValue={ura && ura.name}
@@ -56,147 +60,195 @@ export default function UraForm({
               id="extension"
               type="text"
               name="extension"
-              label="Extensão"
-              className="rounded-full "
+              label="Apontamento de ramal (Extensão)"
+              className=" "
               control={control}
               errors={errors}
               defaultValue={ura && ura.extension}
             />
             <Input
+              id="invalid_loops"
+              type="text"
+              name="invalid_loops"
+              label="Reitentos invalidos"
+              className=" "
+              control={control}
+              errors={errors}
+              defaultValue={ura && ura.invalid_loops}
+            />
+            <Input
+              id="invalid_retry_recording"
+              type="text"
+              name="invalid_retry_recording"
+              label="Áudio de instrução após tentativa invalida"
+              className=" "
+              control={control}
+              errors={errors}
+              defaultValue={ura && ura.invalid_retry_recording}
+            />
+            <Input
+              id="invalid_destination"
+              type="text"
+              name="invalid_destination"
+              label="Destino após o máximo de tentativas invalidas"
+              className=" "
+              control={control}
+              errors={errors}
+              defaultValue={ura && ura.invalid_destination}
+            />
+            <Input
+              id="invalid_recording"
+              type="text"
+              name="invalid_recording"
+              label="Áudio após atigir o máximo de tentativas invalidas"
+              className=""
+              control={control}
+              errors={errors}
+              defaultValue={ura && ura.invalid_recording}
+            />
+            <Input
               id="timeout_time"
               type="number"
               name="timeout_time"
-              label="Tempo Máximo apos áudio"
-              className="rounded-full "
+              label="Tempo máximo de espera com o áudio"
+              className=" "
               control={control}
               errors={errors}
               defaultValue={ura && ura.timeout_time}
             />
-
             <Input
-              id="timeout_append_announce"
-              type="number"
-              name="timeout_append_announce"
-              label="Repetições de anúncio"
-              className="rounded-full "
-              control={control}
-              errors={errors}
-              defaultValue={ura && ura.timeout_append_announce}
-            />
-
-            <Input
-              id="announcement"
+              id="timeout_recording"
               type="text"
-              name="announcement"
-              label="Áudio Inicial"
-              className="rounded-full "
+              name="timeout_recording"
+              label="Áudio após atigir o limite de tentativas do tempo máximo"
+              className=" "
               control={control}
               errors={errors}
-              defaultValue={ura && ura.announcement}
+              defaultValue={ura && ura.timeout_recording}
             />
-
             <Input
-              id="description"
+              id="timeout_retry_recording"
               type="text"
-              name="description"
-              label="Descrição"
-              className="rounded-full "
+              name="timeout_retry_recording"
+              label="Áudio de instrução após tempo máximo atingido"
+              className=" "
               control={control}
               errors={errors}
-              defaultValue={ura && ura.description}
+              defaultValue={ura && ura.timeout_retry_recording}
+            />
+            <Input
+              id="timeout_destination"
+              type="text"
+              name="timeout_destination"
+              label="Destino após o limite de tentativas do tempo máximo"
+              className=" "
+              control={control}
+              errors={errors}
+              defaultValue={ura && ura.timeout_destination}
+            />
+            <Input
+              id="timeout_loops"
+              type="text"
+              name="timeout_loops"
+              label="Reitentos após tentativa de tempo máximo"
+              className=" "
+              control={control}
+              errors={errors}
+              defaultValue={ura && ura.timeout_loops}
             />
           </div>
-          <Switch
-            label="Ativar Fila Padrão"
-            handleToggle={() => setIsChecked(!isChecked)}
-            checked={isChecked}
-            disabled={false}
-          />
-          {isChecked && (
-            <div className="flex flex-row gap-4">
-              <Input
-                id="default_destination"
-                type="text"
-                name="default_destination"
-                label="Destino Padrão"
-                className="rounded-full "
-                control={control}
-                errors={errors}
-                defaultValue={ura && ura.default_destination}
-              />
-            </div>
-          )}
-          <div className="gap-4">
+          <div className="gap-4 pt-4">
             <Checkbox
-              id="invalid_append_announce"
-              name="invalid_append_announce"
-              label="Ativar invalidade após anúncio"
+              id="directdial"
+              name="directdial"
+              label="Discagem direto ao ramal"
               control={control}
-              defaultChecked={ura && ura.invalid_append_announce}
+              defaultChecked={ura && ura.directdial}
             />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold items-center justify-center">
+              Grupo de horario
+            </h1>
+            <section>
+              {filteredUraSchedules?.map((schedule) => {
+                return (
+                  <div key={schedule.id} className="flex flex-row gap-4">
+                    <Input
+                      id="init_day_of_week"
+                      type="text"
+                      name="init_day_of_week"
+                      label="Dia inicial"
+                      className="rounded-full"
+                      control={control}
+                      errors={errors}
+                      defaultValue={schedule.init_day_of_week}
+                    />
+                    <Input
+                      id="end_day_of_week"
+                      type="text"
+                      name="end_day_of_week"
+                      label="Dia final"
+                      className="rounded-full"
+                      control={control}
+                      errors={errors}
+                      defaultValue={schedule.end_day_of_week}
+                    />
+                    <Input
+                      id="start_time"
+                      type="text"
+                      name="start_time"
+                      label="Horário inicial"
+                      className="rounded-full"
+                      control={control}
+                      errors={errors}
+                      defaultValue={schedule.start_time}
+                    />
+                    <Input
+                      id="end_time"
+                      type="text"
+                      name="end_time"
+                      label="Horário final"
+                      className="rounded-full"
+                      control={control}
+                      errors={errors}
+                      defaultValue={schedule.end_time}
+                    />
+                    <Input
+                      id="recording_schedule"
+                      type="text"
+                      name="recording_schedule"
+                      label="Horário de gravação"
+                      className="rounded-full"
+                      control={control}
+                      errors={errors}
+                      defaultValue={schedule.recording_schedule}
+                    />
+                    <Input
+                      id="destination"
+                      type="text"
+                      name="destination"
+                      label="Destino"
+                      className="rounded-full"
+                      control={control}
+                      errors={errors}
+                      defaultValue={schedule.destination}
+                    />
+                  </div>
+                );
+              })}
+            </section>
           </div>
 
-          {Watchinvalid_append_announce && (
-            <div className="flex flex-row gap-4">
-              <Input
-                id="invalid_loops"
-                type="text"
-                name="invalid_loops"
-                label="Quantidade de tentativas"
-                className="rounded-full "
-                control={control}
-                errors={errors}
-                defaultValue={ura && ura.invalid_loops}
-              />
-              <Input
-                id="invalid_announcement"
-                type="text"
-                name="invalid_announcement"
-                label="Mensagem de após invalidade"
-                className="rounded-full "
-                control={control}
-                errors={errors}
-                defaultValue={ura && ura.invalid_announcement}
-              />
-            </div>
-          )}
-          <div className="gap-4">
-            <Checkbox
-              id="play_hold_music"
-              name="play_hold_music"
-              label="Ativar toque de música de espera"
-              control={control}
-              defaultChecked={ura && ura.play_hold_music}
-            />
-          </div>
-          {Watchplay_hold_music && (
-            <div className="flex flex-row gap-4">
-              <Input
-                id="hold_music_audio"
-                type="text"
-                name="hold_music_audio"
-                label="Áudio de espera"
-                className="rounded-full "
-                control={control}
-                errors={errors}
-                defaultValue={ura && ura.hold_music_audio}
-              />
-            </div>
-          )}
-          <div className="gap-4">
-            <Checkbox
-              id="record_calls"
-              name="record_calls"
-              label="Ativar gravação de chamadas"
-              control={control}
-              defaultChecked={ura && ura.record_calls}
-            />
-          </div>
+          <div className="gap-4"></div>
           <div className="">
             <h1 className="text-3xl py-4 font-semibold">Opções da ura</h1>
-            {uraOptions?.map((option) => {
-              return (
-                <div key={option.id} className="flex flex-row gap-4">
+          </div>
+          {uraOptions?.map((option) => {
+            console.log(option.selection);
+            return (
+              <div key={option.id} className="">
+                <div className="flex flex-row gap-4">
                   <Input
                     id="digit"
                     type="number"
@@ -205,7 +257,7 @@ export default function UraForm({
                     className="rounded-full"
                     control={control}
                     errors={errors}
-                    defaultValue={option.digit}
+                    defaultValue={option && option.selection}
                   />
                   <Input
                     id="audio"
@@ -215,7 +267,7 @@ export default function UraForm({
                     className="rounded-full"
                     control={control}
                     errors={errors}
-                    defaultValue={option.audio}
+                    defaultValue={option.spoken}
                   />
                   <Input
                     id="destination"
@@ -225,12 +277,80 @@ export default function UraForm({
                     className="rounded-full"
                     control={control}
                     errors={errors}
-                    defaultValue={option.destination}
+                    defaultValue={option.dest}
                   />
                 </div>
-              );
-            })}
-          </div>
+                <h2 className="text-2xl font-bold">Horário</h2>
+                {option.schedules?.map((schedule, i) => {
+                  console.log(schedule);
+                  return (
+                    <div key={i} className="flex flex-row gap-4">
+                      <Input
+                        id="init_day_of_week"
+                        type="text"
+                        name="init_day_of_week"
+                        label="Dia Inicial"
+                        className="rounded-full"
+                        control={control}
+                        errors={errors}
+                        defaultValue={schedule.init_day_of_week}
+                      />
+                      <Input
+                        id="end_day_of_week"
+                        type="text"
+                        name="end_day_of_week"
+                        label="Dia final"
+                        className="rounded-full"
+                        control={control}
+                        errors={errors}
+                        defaultValue={schedule.end_day_of_week}
+                      />
+                      <Input
+                        id="start_time"
+                        type="text"
+                        name="start_time"
+                        label="Hora inicial"
+                        className="rounded-full"
+                        control={control}
+                        errors={errors}
+                        defaultValue={schedule.start_time}
+                      />
+                      <Input
+                        id="end_time"
+                        type="text"
+                        name="end_time"
+                        label="Hora final"
+                        className="rounded-full"
+                        control={control}
+                        errors={errors}
+                        defaultValue={schedule.end_time}
+                      />
+                      <Input
+                        id="recording_schedule"
+                        type="text"
+                        name="recording_schedule"
+                        label="Gravação de áudio"
+                        className="rounded-full"
+                        control={control}
+                        errors={errors}
+                        defaultValue={schedule.recording_schedule}
+                      />
+                      <Input
+                        id="destination"
+                        type="text"
+                        name="destination"
+                        label="Destino"
+                        className="rounded-full"
+                        control={control}
+                        errors={errors}
+                        defaultValue={schedule.destination}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </form>
         <div className="mt-3 items-center justify-center flex flex-row gap-3">
           <button

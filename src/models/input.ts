@@ -23,4 +23,17 @@ export interface InputGlobalProps {
   play_hold_music: boolean;
   hold_music_audio: string;
   record_calls: boolean;
+  directdial: boolean;
+  invalid_retry_recording: string;
+  invalid_destination: string;
+  invalid_recording: string;
+  timeout_recording: string;
+  timeout_retry_recording: string;
+  timeout_destination: string;
+  timeout_loops: string;
+  init_day_of_week: string;
+  end_day_of_week: string;
+  start_time: string;
+  end_time: string;
+  recording_schedule: string;
 }

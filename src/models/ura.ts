@@ -1,16 +1,31 @@
+import { UraSchedule } from "./uraSchedule";
+
 export interface UrasProp {
   uras: {
     id: number;
     name: string;
-    extension: string;
-    timeout_time: number;
-    timeout_append_announce: number;
-    announcement: string;
-    is_active: boolean;
     description: string;
-    invalid_append_announce: boolean;
+    announcement: string;
     invalid_loops: string;
+    invalid_retry_recording: string;
+    invalid_destination: string;
+    invalid_recording: string;
+    retvm: string;
+    timeout_time: number;
+    timeout_recording: string;
+    timeout_retry_recording: string;
+    timeout_destination: string;
+    timeout_loops: string;
+    timeout_append_announce: boolean;
+    invalid_append_announce: boolean;
+    timeout_ivr_ret: boolean;
+    invalid_ivr_ret: boolean;
+    extension: string;
+    directdial: boolean;
+    timeout_enabled: boolean;
+    invalid_enabled: boolean;
     options: Option[];
+    schedules: UraSchedule[];
   }[];
 }
 
@@ -18,37 +33,64 @@ export interface UraProp {
   ura: {
     id: number;
     name: string;
-    extension: string;
-    timeout_time: number;
-    timeout_append_announce: number;
-    announcement: string;
-    is_active: boolean;
     description: string;
-    invalid_append_announce: boolean;
+    announcement: string;
     invalid_loops: string;
+    invalid_retry_recording: string;
+    invalid_destination: string;
+    invalid_recording: string;
+    retvm: string;
+    timeout_time: number;
+    timeout_recording: string;
+    timeout_retry_recording: string;
+    timeout_destination: string;
+    timeout_loops: string;
+    timeout_append_announce: boolean;
+    invalid_append_announce: boolean;
+    timeout_ivr_ret: boolean;
+    invalid_ivr_ret: boolean;
+    extension: string;
+    directdial: boolean;
+    timeout_enabled: boolean;
+    invalid_enabled: boolean;
     options: Option[];
+    schedules: UraSchedule[];
   };
 }
 
 export interface Ura {
   id: number;
   name: string;
-  extension: string;
-  timeout_time: number;
-  timeout_append_announce: number;
-  announcement: string;
-  is_active: boolean;
   description: string;
+  announcement: string;
+  invalid_loops: string;
+  invalid_retry_recording: string;
+  invalid_destination: string;
+  invalid_recording: string;
+  retvm: string;
+  timeout_time: number;
+  timeout_recording: string;
+  timeout_retry_recording: string;
+  timeout_destination: string;
+  timeout_loops: string;
+  timeout_append_announce: boolean;
   invalid_append_announce: boolean;
-  invalid_loops: string | null;
+  timeout_ivr_ret: boolean;
+  invalid_ivr_ret: boolean;
+  extension: string;
+  directdial: boolean;
+  timeout_enabled: boolean;
+  invalid_enabled: boolean;
   options: Option[];
+  schedules: UraSchedule[];
 }
 
 export interface Option {
   id: number;
-  ura_id: number;
-  digit: string;
-  audio: string;
-  destination: string;
-  schedule_group: string;
+  ivr_id: number;
+  dest: string;
+  selection: string;
+  ivr_ret: string;
+  spoken: string;
 }
+
