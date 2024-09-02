@@ -2,12 +2,12 @@ export interface UraSchedule {
   id: number;
   ivr_id: number;
   ivr_option_id: number;
-  init_day_of_week: string;
-  end_day_of_week: string;
-  start_time: string;
-  end_time: string;
-  recording_schedule: string;
   destination: string;
+  days_of_week: [number];
+  month: [number];
+  day_of_month: [number];
+  time:[string]
+
 }
 
 export interface UrasSchedule {
@@ -15,11 +15,10 @@ export interface UrasSchedule {
     id: number;
     ivr_id: number;
     ivr_option_id: number;
-    init_day_of_week: string;
-    end_day_of_week: string;
-    start_time: string;
-    end_time: string;
-    recording_schedule: string;
+    days_of_week: [number];
+    month: [number];
+    day_of_month: [number];
+    time:[string]
     destination: string;
   }[];
 }

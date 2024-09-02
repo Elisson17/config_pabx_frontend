@@ -6,6 +6,7 @@ interface ContextProps {
 }
 
 export default function Context({ children }: ContextProps) {
+  
   return (
     <>
       <Header />

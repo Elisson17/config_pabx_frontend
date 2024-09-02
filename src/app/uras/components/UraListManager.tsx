@@ -34,7 +34,6 @@ export default function UraListManager({ uras }: UraListManagerProps) {
           <TableHeader>
             <TableRow>
               <TableHead>Nome</TableHead>
-              <TableHead>Extensão</TableHead>
               <TableHead>Descrição</TableHead>
             </TableRow>
           </TableHeader>
@@ -42,7 +41,6 @@ export default function UraListManager({ uras }: UraListManagerProps) {
             {uras.map((ura) => (
               <TableRow key={ura.id}>
                 <TableCell>{ura.name}</TableCell>
-                <TableCell>{ura.extension}</TableCell>
                 <TableCell>{ura.description}</TableCell>
                 <TableCell>
                   <Link href={`/uras/edit?type=ura&id=${ura.id}`}>

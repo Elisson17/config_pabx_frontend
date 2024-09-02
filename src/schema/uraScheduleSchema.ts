@@ -12,12 +12,11 @@ export const uraScheduleSchema = z.object({
     .transform((value) => (value === 0 ? null : value))
     .nullable()
     .optional(),
-  init_day_of_week: z.string().min(1, "O dia inicial é obrigatório."),
-  end_day_of_week: z.string().min(1, "O dia final é obrigatório."),
-  start_time: z.string().min(1, "O horário inicial é obrigatório."),
-  end_time: z.string().min(1, "O horário final é obrigatório."),
-  recording_schedule: z.string().min(1, "O horário de gravação é obrigatório."),
-  destination: z.string().min(1, "O destino é obrigatório."),
+  days_of_week: z.array(z.number()).min(1, "É obrigatório selecionar pelo menos uma semana."),
+  month: z.array(z.number()).min(1, "É obrigatório selecionar pelo menos um mês."),
+  day_of_month: z.array(z.number()).min(1, "É obrigatório selecionar pelo menos um dia."),
+  time: z.array(z.string()).min(1, "É obrigatório selecionar pelo menos uma hora."),
+  destination: z.string().min(1, "É obrigatório selecionar um destino."),
 });
 
 export type UraScheduleType = z.infer<typeof uraScheduleSchema>;

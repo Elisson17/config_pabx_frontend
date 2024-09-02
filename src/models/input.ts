@@ -8,11 +8,15 @@ export interface InputGlobalProps {
   timeout_append_announce: number;
   announcement: string;
   is_active: boolean;
+  ivr_option_id: number;
+  ivr_id: number;
   description: string;
   invalid_append_announce: boolean;
   invalid_loops: string | null;
+  days_of_week: string;
   options: any;
   context: string;
+  time_operation: string;
   username: string;
   option: string;
   digit: string;

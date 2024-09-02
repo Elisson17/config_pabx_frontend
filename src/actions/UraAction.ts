@@ -5,7 +5,6 @@ import { revalidateTag } from "next/cache";
 export async function createNewUraAction(data: UraType) {
   if (!data) return;
   try {
-    console.log(data);
     // const response = await uraAdd(data);
     // if (response.status !== 200) {
     //   return { success: false, message: `Error: ${response.statusText}` };

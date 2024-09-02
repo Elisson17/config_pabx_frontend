@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getUraOptions } from "@/service/uraOption";
 import { constants } from "buffer";
 import { getUraSchedule } from "@/service/uraSchedule";
+import { getAllListAudios } from "@/service/audio";
 
 export default async function UraEditPage({
   searchParams,
@@ -14,17 +15,29 @@ export default async function UraEditPage({
   if (!searchParams) {
     redirect("/uras");
   }
+
   const getRequestUra = await getUraId(searchParams?.id!);
   const getUraOptionsId = await getUraOptions(searchParams?.id!);
   const getUraSchedules = await getUraSchedule(searchParams?.id!);
 
+  const Audio = await getAllListAudios();
+  const AudioList = Audio.data.audios;
+
   const Ura = getRequestUra.data.ura;
   const UraOptions = getUraOptionsId.data.options;
   const UraSchedules = getUraSchedules.data.schedules;
-  
+
   return (
     <div>
-      <UraForm title="Editar URA" data={{ ura: Ura, uraOptions: UraOptions, uraSchedules: UraSchedules }} />
+      <UraForm
+        title="Editar URA"
+        data={{
+          ura: Ura,
+          uraOptions: UraOptions,
+          uraSchedules: UraSchedules,
+          Audio: AudioList,
+        }}
+      />
     </div>
   );
 }

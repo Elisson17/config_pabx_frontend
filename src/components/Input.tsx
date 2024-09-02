@@ -7,6 +7,8 @@ import { InputGlobalProps } from "@/models/input";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { IMaskInput } from "react-imask";
 import { twMerge } from "tailwind-merge";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import Tooltip from "./Tooltip";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -17,6 +19,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   mask?: any;
   required?: boolean;
   isLoginPage?: boolean;
+  information?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -35,9 +38,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       isLoginPage,
       defaultValue,
       className,
+      information,
       ...rest
     }: InputProps,
-    forwardedRef: ForwardedRef<HTMLInputElement>,
+    forwardedRef: ForwardedRef<HTMLInputElement>
   ) => {
     const {
       field: { ref, ...inputProps },
@@ -55,7 +59,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <div>
         <label
           htmlFor={id}
-          className={`block select-none truncate text-sm font-semibold leading-5 ${
+          className={`flex select-none truncate text-sm font-semibold leading-5 ${
             error ? "-top-[40%] text-[#FF0404]" : "-top-[60%] left-1"
           } ${
             isLoginPage
@@ -71,11 +75,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ) : (
             <>{label}</>
           )}
+          {information && (
+            <>
+              <Tooltip title={information} side="top">
+                <InformationCircleIcon className="h-5 w-6" />
+              </Tooltip>
+            </>
+          )}
         </label>
         <div
           className={twMerge(
             `relative ${error ? "rounded-md bg-[#FF0404]" : ""}`,
-            className,
+            className
           )}
         >
           <IMaskInput
@@ -129,7 +140,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         </div>
       </div>
     );
-  },
+  }
 );
 
 Input.displayName = "Input";
